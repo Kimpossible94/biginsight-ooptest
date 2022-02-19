@@ -117,8 +117,23 @@ public abstract class Skill {
    protected boolean checkPossibleLevelUp(){
       if (getMaxLevel() <= getLevel()) {
          System.out.println("기술 레벨이 최대입니다.");
-         return false;
+         return true;
       }
-      return true;
+      System.out.println("기술 레벨업 !!!");
+      return false;
+   }
+
+   @Override
+   public String toString() {
+      return "Skill{" +
+              "name='" + name + '\'' +
+              ", lastCastTime=" + lastCastTime +
+              ", cooldown=" + cooldown +
+              ", duration=" + duration +
+              ", mpCost=" + mpCost +
+              ", level=" + level +
+              ", maxLevel=" + maxLevel +
+              ", amount=" + amount +
+              '}';
    }
 }

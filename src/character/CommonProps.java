@@ -1,8 +1,20 @@
 package character;
 
+import skill.Skill;
+import skill.common.Heal;
+import skill.common.Steam;
+import weapon.Weapon;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class CommonProps {
    private int level;
    private String name;
+   private Heal heal;
+   private Steam steam;
+   private List<Weapon> weaponList;
+   private List<Skill> skillList;
    private int maxHp;
    private int curHp;
    private int maxMp;
@@ -33,6 +45,28 @@ public abstract class CommonProps {
       this.defaultDefense = defaultDefense;
       this.avoidability = avoidability;
       this.defaultAvd = defaultAvd;
+      this.heal = new Heal();
+      this.steam = new Steam();
+      this.skillList = new ArrayList<Skill>();
+      this.skillList.add(this.heal);
+      this.skillList.add(this.steam);
+      this.weaponList = new ArrayList<Weapon>();
+   }
+
+   public Heal getHeal() {
+      return heal;
+   }
+
+   public Steam getSteam() {
+      return steam;
+   }
+
+   public List<Skill> getSkillList() {
+      return skillList;
+   }
+
+   public List<Weapon> getWeaponList() {
+      return weaponList;
    }
 
    public int getLevel() {
