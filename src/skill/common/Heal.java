@@ -15,15 +15,14 @@ public class Heal extends Skill {
          int hpAfterHeal = target.getCurHp() + getAmount();
          target.setCurHp(Math.min(hpAfterHeal, target.getMaxHp()));
          setLastCastTime(System.currentTimeMillis());
-         target.setCurMp(target.getMaxMp() - getMpCost());
+         target.setCurMp(target.getCurMp() - getMpCost());
       }
    }
 
 
    @Override
    public boolean levelUp() {
-      if (getMaxLevel() <= getLevel()) {
-         System.out.println("기술 레벨이 최대입니다.");
+      if (checkPossibleLevelUp()) {
          return false;
       }
       setLevel(getLevel() + 1);

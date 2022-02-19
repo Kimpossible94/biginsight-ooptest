@@ -4,8 +4,9 @@ import character.CommonProps;
 import skill.Skill;
 
 public class Steam extends Skill {
-   protected Steam() {
-      super("steam", 0, 20, 7, 10, 1, 120, 5);
+
+   public Steam() {
+      super("Steam", 0, 20, 7, 10, 1, 120, 5);
    }
 
    @Override
@@ -13,14 +14,14 @@ public class Steam extends Skill {
       if(checkPossibleActivate(target)){
          target.setAttackDamage(target.getAttackDamage() * getAmount() / 100);
          setLastCastTime(System.currentTimeMillis());
-         target.setCurMp(target.getMaxMp() - getMpCost());
+         target.setCurMp(target.getCurMp() - getMpCost());
+         deactivate(target);
       }
    }
 
    @Override
    public boolean levelUp() {
-      if (getMaxLevel() <= getLevel()) {
-         System.out.println("기술 레벨이 최대입니다.");
+      if (checkPossibleLevelUp()) {
          return false;
       }
       setLevel(getLevel() + 1);
@@ -33,8 +34,17 @@ public class Steam extends Skill {
 
    @Override
    public void deactivate(CommonProps target) {
-      if(checkPossibleDeactivate()){
-         target.setAttackDamage(target.getAttackDamage() / getAmount() * 100);
-      }
+      Thread t = new Thread(new Runnable() {
+         @Override
+         public void run() {
+            try {
+               Thread.sleep(getDuration()*1000);
+               target.setAttackDamage(target.getAttackDamage() / getAmount() * 100);
+            } catch (InterruptedException e) {
+               e.printStackTrace();
+            }
+         }
+      });
+      t.start();
    }
 }

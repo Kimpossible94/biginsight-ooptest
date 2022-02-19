@@ -113,10 +113,12 @@ public abstract class Skill {
       return true;
    }
 
-   //스킬 비활성 가능여부
-   protected boolean checkPossibleDeactivate(){
-      long time = timeAfterActivate();
-      return time >= getDuration();
+   //기술 레벨업 가능 여부 확인
+   protected boolean checkPossibleLevelUp(){
+      if (getMaxLevel() <= getLevel()) {
+         System.out.println("기술 레벨이 최대입니다.");
+         return false;
+      }
+      return true;
    }
-
 }
