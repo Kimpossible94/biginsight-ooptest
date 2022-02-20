@@ -1,6 +1,6 @@
 package skill.human;
 
-import character.CommonProps;
+import unit.character.CommonProps;
 import skill.Skill;
 
 public class Guard extends Skill {

@@ -1,4 +1,4 @@
-package character;
+package unit.character;
 
 import skill.Skill;
 import skill.common.Heal;
@@ -19,6 +19,8 @@ public abstract class CommonProps {
    private int curHp;
    private int maxMp;
    private int curMp;
+   private int curExp;
+   private int maxExp;
    private double attackDamage;
    private double defaultDmg;
    private double attackSpeed;
@@ -37,6 +39,8 @@ public abstract class CommonProps {
       this.curHp = curHp;
       this.maxMp = maxMp;
       this.curMp = curMp;
+      this.curExp = 0;
+      this.maxExp = 10;
       this.attackDamage = attackDamage;
       this.defaultDmg = defaultDmg;
       this.attackSpeed = attackSpeed;

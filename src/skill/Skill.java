@@ -1,6 +1,6 @@
 package skill;
 
-import character.CommonProps;
+import unit.character.CommonProps;
 
 public abstract class Skill {
    private String name; //기술 이름

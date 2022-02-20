@@ -1,6 +1,6 @@
 package skill.elf;
 
-import character.CommonProps;
+import unit.character.CommonProps;
 import skill.Skill;
 
 public class Rapid extends Skill {

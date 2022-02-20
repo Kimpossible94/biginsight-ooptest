@@ -1,6 +1,6 @@
 package skill.orc;
 
-import character.CommonProps;
+import unit.character.CommonProps;
 import skill.Skill;
 
 public class Frenzy extends Skill {

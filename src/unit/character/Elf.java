@@ -1,4 +1,4 @@
-package character;
+package unit.character;
 
 import skill.elf.Elusion;
 import skill.elf.Rapid;

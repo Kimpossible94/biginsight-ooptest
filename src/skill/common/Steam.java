@@ -1,6 +1,6 @@
 package skill.common;
 
-import character.CommonProps;
+import unit.character.CommonProps;
 import skill.Skill;
 
 public class Steam extends Skill {

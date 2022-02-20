@@ -1,6 +1,6 @@
 package weapon;
 
-import character.CommonProps;
+import unit.character.CommonProps;
 
 public abstract class Weapon {
    private int level;
