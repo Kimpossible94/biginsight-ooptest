@@ -4,6 +4,6 @@ import unit.monster.MonsterProps;
 
 public class Skeleton extends MonsterProps {
    public Skeleton() {
-      super(15, 2, 4, 2, 12, 30, 3);
+      super("Skeleton", 15, 2, 4, 2, 12, 30, 5);
    }
 }

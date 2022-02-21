@@ -4,6 +4,6 @@ import unit.monster.MonsterProps;
 
 public class Incubus extends MonsterProps {
    public Incubus() {
-      super(65, 9, 15, 7, 45, 30, 3);
+      super("Incubus", 65, 9, 15, 5, 45, 30, 5);
    }
 }

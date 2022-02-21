@@ -4,6 +4,6 @@ import unit.monster.MonsterProps;
 
 public class BlackDragon extends MonsterProps {
    public BlackDragon() {
-      super(150, 28, 40, 18, 99, 35, 3);
+      super("BlackDragon", 150, 28, 40, 7, 99, 35, 5);
    }
 }

@@ -23,23 +23,19 @@ public abstract class Skill {
       this.maxLevel = maxLevel;
    }
 
-   protected int getMaxLevel() {
+   public int getMaxLevel() {
       return maxLevel;
    }
 
-   protected String getName() {
+   public String getName() {
       return name;
    }
 
-   protected void setName(String name) {
-      this.name = name;
-   }
-
-   protected long getLastCastTime() {
+   public long getLastCastTime() {
       return lastCastTime;
    }
 
-   protected void setLastCastTime(long lastCastTime) {
+   public void setLastCastTime(long lastCastTime) {
       this.lastCastTime = lastCastTime;
    }
 
@@ -59,7 +55,7 @@ public abstract class Skill {
       this.duration = duration;
    }
 
-   protected int getMpCost() {
+   public int getMpCost() {
       return mpCost;
    }
 
@@ -67,7 +63,7 @@ public abstract class Skill {
       this.mpCost = mpCost;
    }
 
-   protected int getLevel() {
+   public int getLevel() {
       return level;
    }
 
@@ -85,7 +81,7 @@ public abstract class Skill {
 
    public abstract void activate(CommonProps target);
 
-   public abstract boolean levelUp();
+   public abstract boolean levelUp(CommonProps target);
 
    public abstract void deactivate(CommonProps target);
 
@@ -114,7 +110,12 @@ public abstract class Skill {
    }
 
    //기술 레벨업 가능 여부 확인
-   protected boolean checkPossibleLevelUp(){
+   protected boolean checkPossibleLevelUp(CommonProps target){
+      if(target.getSkillPoint() < 1){
+         System.out.println("스킬 포인트가 부족합니다.");
+         return true;
+      }
+
       if (getMaxLevel() <= getLevel()) {
          System.out.println("기술 레벨이 최대입니다.");
          return true;

@@ -20,7 +20,7 @@ public class Frenzy extends Skill {
    }
 
    @Override
-   public boolean levelUp() {
+   public boolean levelUp(CommonProps target) {
       System.out.println("궁극 기술은 레벨업 할 수 없습니다.");
       return false;
    }

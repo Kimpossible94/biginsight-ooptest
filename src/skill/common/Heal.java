@@ -21,8 +21,8 @@ public class Heal extends Skill {
 
 
    @Override
-   public boolean levelUp() {
-      if (checkPossibleLevelUp()) {
+   public boolean levelUp(CommonProps target) {
+      if (checkPossibleLevelUp(target)) {
          return false;
       }
       setLevel(getLevel() + 1);

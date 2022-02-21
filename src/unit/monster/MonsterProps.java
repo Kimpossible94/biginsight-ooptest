@@ -1,6 +1,9 @@
 package unit.monster;
 
+import unit.character.CommonProps;
+
 public class MonsterProps {
+   private String name;
    private int curHp;
    private int maxHp;
    private double minDamage;
@@ -10,7 +13,9 @@ public class MonsterProps {
    private int counterPercent;
    private double attackSpeed;
 
-   public MonsterProps(int maxHp, double minDamage,double maxDamage, double defence, int exp, int counterPercent, double attackSpeed) {
+   public MonsterProps(String name, int maxHp, double minDamage,double maxDamage, double defence,
+                       int exp, int counterPercent, double attackSpeed) {
+      this.name = name;
       this.maxHp = maxHp;
       this.curHp = this.maxHp;
       this.minDamage = minDamage;
@@ -19,6 +24,10 @@ public class MonsterProps {
       this.exp = exp;
       this.counterPercent = counterPercent;
       this.attackSpeed = attackSpeed;
+   }
+
+   public String getName() {
+      return name;
    }
 
    public int getCounterPercent() {
@@ -49,9 +58,42 @@ public class MonsterProps {
       return exp;
    }
 
-   public boolean activeCounter(){
+   public double getAttackSpeed() {
+      return attackSpeed;
+   }
+
+   public void activeCounter(CommonProps character){
       int random = (int) Math.round(Math.random() * 100);
-      return random <= counterPercent;
+      if(random > counterPercent || getCurHp() <= 0){
+         return;
+      }
+      System.out.println("몬스터가 반격하였습니다.");
+      double attackDamage = Math.round((Math.random() * (maxDamage - minDamage) + minDamage) * 0.7);
+      changeCharacterHp(character, attackDamage);
+   }
+
+   private void changeCharacterHp(CommonProps character, double attackDamage) {
+      double finalDamage = attackDamage - character.getDefence();
+      if(finalDamage < 0){
+         finalDamage = 0;
+      }
+      character.setCurHp((int) (character.getCurHp() - finalDamage));
+      System.out.println(finalDamage + "의 데미지를 입었습니다. (현재 체력 : " + character.getCurHp() + " / " + character.getMaxHp() + ")");
+   }
+
+   public void attack(CommonProps character){
+      if(getCurHp() <= 0){
+         return;
+      }
+      System.out.println("몬스터가 공격하였습니다.");
+      int random = (int) Math.round(Math.random() * 100);
+      if(random <= character.getAvoidability()){
+         System.out.println("몬스터의 공격을 회피하였습니다.");
+         return;
+      }
+
+      double attackDamage = Math.round(Math.random() * (maxDamage - minDamage) + minDamage);
+      changeCharacterHp(character, attackDamage);
    }
 
    public void checkMonsterInfo(){

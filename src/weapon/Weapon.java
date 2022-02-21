@@ -3,16 +3,22 @@ package weapon;
 import unit.character.CommonProps;
 
 public abstract class Weapon {
+   private String name;
    private int level;
    private double damage;
    private double speed;
    private boolean equipment;
 
-   protected Weapon(int level, double damage, double speed) {
+   protected Weapon(String name, int level, double damage, double speed) {
+      this.name = name;
       this.level = level;
       this.damage = damage;
       this.speed = speed;
       this.equipment = false;
+   }
+
+   public String getName() {
+      return name;
    }
 
    public int getLevel() {
@@ -87,6 +93,8 @@ public abstract class Weapon {
       } else {
          target.setAttackSpeed(target.getAttackSpeed() * speedAbs / 100);
       }
+
+      System.out.println(getName() + "을 착용하였습니다.");
    }
 
    //장비 해제시 스텟변경
@@ -107,6 +115,8 @@ public abstract class Weapon {
       } else {
          target.setAttackSpeed(target.getAttackSpeed() / speedAbs * 100);
       }
+
+      System.out.println(weapon.getName() + "을 해제하였습니다.");
    }
 
    @Override

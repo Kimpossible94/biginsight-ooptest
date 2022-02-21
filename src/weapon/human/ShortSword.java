@@ -3,7 +3,7 @@ package weapon.human;
 import weapon.Weapon;
 
 public class ShortSword extends Weapon {
-   protected ShortSword() {
-      super(1, 105, 100);
+   public ShortSword() {
+      super("ShortSword", 1, 105, 100);
    }
 }

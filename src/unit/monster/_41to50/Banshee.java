@@ -4,6 +4,6 @@ import unit.monster.MonsterProps;
 
 public class Banshee extends MonsterProps {
    public Banshee() {
-      super(40, 12, 20, 3, 50, 40, 3);
+      super("Banshee", 40, 12, 20, 3, 50, 40, 5);
    }
 }

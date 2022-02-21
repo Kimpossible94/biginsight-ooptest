@@ -5,6 +5,6 @@ import weapon.Weapon;
 public class LongSword extends Weapon {
 
    public LongSword() {
-      super(25, 110, 100);
+      super("LongSword", 25, 110, 100);
    }
 }

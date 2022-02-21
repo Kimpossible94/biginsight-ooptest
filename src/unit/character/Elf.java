@@ -13,8 +13,8 @@ public class Elf extends CommonProps{
    private ShortBow shortBow;
 
    public Elf() {
-      super("elf", 50, 50, 100, 100, 10,
-              10, 1, 1.2, 5, 5, 40, 40);
+      super("Elf", 50, 50, 100, 100, 10,
+              0.8, 3, 30);
       this.elusion = new Elusion();
       getSkillList().add(this.elusion);
       this.ironBow = new IronBow();
@@ -41,5 +41,30 @@ public class Elf extends CommonProps{
 
    public ShortBow getShortBow() {
       return shortBow;
+   }
+
+   @Override
+   public void levelUp() {
+      setLevel(getLevel() + 1);
+      setMaxHp(getMaxHp() + 2);
+      setMaxMp(getMaxMp() + 10);
+      setCurHp(getMaxHp());
+      setCurMp(getMaxMp());
+      setAttackDamage(getAttackDamage() + 0.25);
+      setDefence(getDefence()+0.02);
+      setAvoidability(getAvoidability()+0.1);
+      if(getLevel() / 3 == 0){
+         setAttackSpeed(getAttackSpeed() + 0.05);
+      }
+      setMaxExp(getMaxExp() + getLevel() * 5);
+      setCurExp(0);
+
+      if(getLevel() == 99){
+         this.rapid = new Rapid();
+         getSkillList().add(this.rapid);
+      }
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+      System.out.println("레벨업 하였습니다 !");
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
    }
 }

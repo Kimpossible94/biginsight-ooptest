@@ -4,6 +4,6 @@ import unit.monster.MonsterProps;
 
 public class Lich extends MonsterProps {
    public Lich() {
-      super(90, 20, 28, 10, 74, 25, 3);
+      super("Lich", 90, 20, 28, 5, 74, 25, 6);
    }
 }

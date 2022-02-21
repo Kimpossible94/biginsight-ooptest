@@ -3,10 +3,12 @@ package unit.character;
 import skill.Skill;
 import skill.common.Heal;
 import skill.common.Steam;
+import unit.monster.MonsterProps;
 import weapon.Weapon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public abstract class CommonProps {
    private int level;
@@ -15,6 +17,7 @@ public abstract class CommonProps {
    private Steam steam;
    private List<Weapon> weaponList;
    private List<Skill> skillList;
+   private int skillPoint;
    private int maxHp;
    private int curHp;
    private int maxMp;
@@ -22,17 +25,13 @@ public abstract class CommonProps {
    private int curExp;
    private int maxExp;
    private double attackDamage;
-   private double defaultDmg;
    private double attackSpeed;
-   private double defaultAttackSpeed;
    private double defence;
-   private double defaultDefense;
    private double avoidability;
-   private double defaultAvd;
+   private long lastAttackTime;
 
-   public CommonProps(String name, int maxHp, int curHp, int maxMp, int curMp, double attackDamage,
-                      double defaultDmg, double attackSpeed, double defaultAttackSpeed, double defence, double defaultDefense,
-                      double avoidability, double defaultAvd) {
+   public CommonProps(String name, int maxHp, int curHp, int maxMp, int curMp, double attackDamage, double attackSpeed, double defence,
+                      double avoidability) {
       this.level = 1;
       this.name = name;
       this.maxHp = maxHp;
@@ -41,20 +40,42 @@ public abstract class CommonProps {
       this.curMp = curMp;
       this.curExp = 0;
       this.maxExp = 10;
+      this.skillPoint = 0;
       this.attackDamage = attackDamage;
-      this.defaultDmg = defaultDmg;
       this.attackSpeed = attackSpeed;
-      this.defaultAttackSpeed = defaultAttackSpeed;
       this.defence = defence;
-      this.defaultDefense = defaultDefense;
       this.avoidability = avoidability;
-      this.defaultAvd = defaultAvd;
       this.heal = new Heal();
       this.steam = new Steam();
       this.skillList = new ArrayList<Skill>();
       this.skillList.add(this.heal);
       this.skillList.add(this.steam);
       this.weaponList = new ArrayList<Weapon>();
+      this.lastAttackTime = 0;
+   }
+
+   public int getSkillPoint() {
+      return skillPoint;
+   }
+
+   public void setSkillPoint(int skillPoint) {
+      this.skillPoint = skillPoint;
+   }
+
+   public int getCurExp() {
+      return curExp;
+   }
+
+   public void setCurExp(int curExp) {
+      this.curExp = curExp;
+   }
+
+   public int getMaxExp() {
+      return maxExp;
+   }
+
+   public void setMaxExp(int maxExp) {
+      this.maxExp = maxExp;
    }
 
    public Heal getHeal() {
@@ -83,10 +104,6 @@ public abstract class CommonProps {
 
    public String getName() {
       return name;
-   }
-
-   public void setName(String name) {
-      this.name = name;
    }
 
    public int getMaxHp() {
@@ -129,28 +146,12 @@ public abstract class CommonProps {
       this.attackDamage = attackDamage;
    }
 
-   public double getDefaultDmg() {
-      return defaultDmg;
-   }
-
-   public void setDefaultDmg(double defaultDmg) {
-      this.defaultDmg = defaultDmg;
-   }
-
    public double getAttackSpeed() {
       return attackSpeed;
    }
 
    public void setAttackSpeed(double attackSpeed) {
       this.attackSpeed = attackSpeed;
-   }
-
-   public double getDefaultAttackSpeed() {
-      return defaultAttackSpeed;
-   }
-
-   public void setDefaultAttackSpeed(double defaultAttackSpeed) {
-      this.defaultAttackSpeed = defaultAttackSpeed;
    }
 
    public double getDefence() {
@@ -161,14 +162,6 @@ public abstract class CommonProps {
       this.defence = defence;
    }
 
-   public double getDefaultDefense() {
-      return defaultDefense;
-   }
-
-   public void setDefaultDefense(double defaultDefense) {
-      this.defaultDefense = defaultDefense;
-   }
-
    public double getAvoidability() {
       return avoidability;
    }
@@ -177,25 +170,134 @@ public abstract class CommonProps {
       this.avoidability = avoidability;
    }
 
-   public double getDefaultAvd() {
-      return defaultAvd;
+   public long getLastAttackTime() {
+      return lastAttackTime;
    }
 
-   public void setDefaultAvd(double defaultAvd) {
-      this.defaultAvd = defaultAvd;
+   public void setLastAttackTime(long lastAttackTime) {
+      this.lastAttackTime = lastAttackTime;
+   }
+
+   public void checkSkill() {
+      Scanner sc = new Scanner(System.in);
+      System.out.println("================================================");
+      for (Skill skill : skillList) {
+         System.out.println("스킬 이름 : " + skill.getName() + ", mp 소모량 : " + skill.getMpCost()
+                 + ", 스킬 레벨 : " + skill.getLevel() + " / " + skill.getMaxLevel());
+      }
+      System.out.println("사용 가능한 스킬 포인트 : " + getSkillPoint());
+      System.out.println("스킬을 레벨업 하시겠습니까 ? (y/n)");
+      String choice = sc.next();
+      if (choice.equalsIgnoreCase("y")) {
+         skillLevelUpMenu();
+      } else {
+         return;
+      }
+   }
+
+   private void skillLevelUpMenu() {
+      int choice = choiceSkill();
+      if (choice == skillList.size() + 1) {
+         return;
+      } else {
+         skillList.get(choice-1).levelUp(this);
+      }
+   }
+
+   private int choiceSkill() {
+      Scanner sc = new Scanner(System.in);
+      System.out.println("================================================");
+      System.out.println("스킬을 선택해주세요.");
+      while (true) {
+         int num = 1;
+         for (Skill skill : skillList) {
+            System.out.println("(" + num + ") 스킬 이름 : " + skill.getName() + ", mp 소모량 : " + skill.getMpCost()
+                    + ", 스킬 레벨 : " + skill.getLevel() + " / " + skill.getMaxLevel());
+            num++;
+         }
+         System.out.println("(" + num + ") 뒤로가기");
+         int choice = sc.nextInt();
+         if (choice < 1 || choice > skillList.size() + 1) {
+            System.out.println("번호를 올바르게 입력하세요");
+         } else {
+            return choice;
+         }
+      }
+   }
+
+   public void changeWeapon() {
+      Scanner sc = new Scanner(System.in);
+      while (true){
+         System.out.println("================================================");
+         System.out.println("장비를 선택해주세요.");
+         int num = 1;
+         for (Weapon weapon : weaponList) {
+            if(weapon.isEquipment()){
+               System.out.println("(" + num + ") 장비 이름 : " + weapon.getName() + ", 레벨 제한 : " + weapon.getLevel() + " (착용중)");
+            } else {
+               System.out.println("(" + num + ") 장비 이름 : " + weapon.getName() + ", 레벨 제한 : " + weapon.getLevel());
+            }
+            num++;
+         }
+         System.out.println("(" + num + ") 뒤로가기");
+         int choice = sc.nextInt();
+         if (choice < 1 || choice > skillList.size()+1) {
+            System.out.println("번호를 올바르게 입력하세요");
+            continue;
+         }
+
+         if(choice == weaponList.size()+1){
+            return;
+         }
+
+         weaponList.get(choice-1).equip(this);
+      }
+   }
+
+   public void selectSkill() {
+      int choice = choiceSkill();
+      if (choice == skillList.size() + 1) {
+         return;
+      } else {
+         skillList.get(choice-1).activate(this);
+      }
+   }
+
+   private double timeAfterAttack() {
+      double afterTime = System.currentTimeMillis() - getLastAttackTime();
+      return afterTime/1000;
+   }
+
+   public boolean attack(MonsterProps monster) {
+      double time = timeAfterAttack();
+      if (time < (1 / attackSpeed)) {
+         System.out.println("아직 공격할 수 없습니다.");
+         return false;
+      }
+      double attackDamage = getAttackDamage() - monster.getDefence();
+      double finalDamage = attackDamage - monster.getDefence();
+      if(finalDamage < 0){
+         finalDamage = 0;
+      }
+      monster.setCurHp((int) (monster.getCurHp() - finalDamage));
+      setLastAttackTime(System.currentTimeMillis());
+      System.out.println("공격하였습니다.");
+      return true;
    }
 
    public void checkStatus() {
       System.out.println(
               "===========================상태창=============================\n" +
-              "레벨 : " + level + "\n" +
-              "직업 : " + name +  "\n" +
-              "Hp : {" + curHp + "/" + maxHp + "}\n" +
-              "Mp : {" + curMp + "/" + maxMp + "}\n" +
-              "공격력 : " + attackDamage + "\n" +
-              "공격속도 : " + attackSpeed + "\n" +
-              "방어력 : " + defence + "\n" +
-              "회피력 : " + avoidability + "\n" +
-              "=============================================================");
+                      "레벨 : " + level + "\n" +
+                      "직업 : " + name + "\n" +
+                      "Hp : {" + curHp + "/" + maxHp + "}\n" +
+                      "Mp : {" + curMp + "/" + maxMp + "}\n" +
+                      "공격력 : " + attackDamage + "\n" +
+                      "공격속도 : " + attackSpeed + "\n" +
+                      "방어력 : " + defence + "\n" +
+                      "회피력 : " + avoidability + "\n" +
+                      "=============================================================");
    }
+
+   public abstract void levelUp();
 }
