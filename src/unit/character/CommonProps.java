@@ -281,7 +281,7 @@ public abstract class CommonProps {
       }
       monster.setCurHp((int) (monster.getCurHp() - finalDamage));
       setLastAttackTime(System.currentTimeMillis());
-      System.out.println("공격하였습니다.");
+      System.out.println("-------------------- 몬스터를 공격하였습니다. 남은 몬스터 체력 : " + monster.getCurHp() + " / " + monster.getMaxHp());
       return true;
    }
 

@@ -30,6 +30,10 @@ public class MonsterProps {
       return name;
    }
 
+   public int getMaxHp() {
+      return maxHp;
+   }
+
    public int getCounterPercent() {
       return counterPercent;
    }
